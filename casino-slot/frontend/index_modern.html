@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Dazino Slot - 5 Reels</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: white;
+        }
+        
+        #root {
+            width: 100%;
+            max-width: 1200px;
+        }
+        /* Auth Styles */
+        
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .auth-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .auth-card h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 600;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .auth-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        .auth-input:focus {
+            border-color: #667eea;
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .auth-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .auth-button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        
+        .auth-button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .auth-switch {
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .auth-switch:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        /* Game Styles */
+        
+        .slot-game {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .username {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .logout-button {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .logout-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .balance-display {
+            text-align: right;
+        }
+        
+        .balance-amount {
+            font-size: 32px;
+            font-weight: 700;
+            color: #4ade80;
+            text-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
+        }
+        
+        .balance-label {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+        
+        .slot-machine {
+            position: relative;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+        
+        .three-container {
+            position: absolute;
+            inset: 0;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        
+        .reels-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            position: relative;
+            z-index: 1;
+            min-height: 120px;
+        }
+        
+        .reel {
+            background: linear-gradient(135deg, #374151, #1f2937);
+            border-radius: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .symbol {
+            font-size: 48px;
+            line-height: 1;
+            animation: symbolGlow 2s ease-in-out infinite alternate;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .symbol-image {
+            max-width: 80%;
+            max-height: 80%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+            transition: transform 0.3s ease;
+        }
+        
+        .symbol-image:hover {
+            transform: scale(1.1);
+        }
+        
+        @keyframes symbolGlow {
+            from {
+                filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+            }
+            to {
+                filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.8));
+            }
+        }
+        
+        .reel.spinning .symbol {
+            animation: spin 0.1s linear infinite;
+        }
+        
+        .reel.spinning .symbol-image {
+            animation: imageSpin 0.1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% {
+                transform: translateY(0) rotateX(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotateX(180deg);
+            }
+            100% {
+                transform: translateY(0) rotateX(360deg);
+            }
+        }
+        
+        @keyframes imageSpin {
+            0% {
+                transform: scale(1) rotate(0deg);
+                opacity: 0.3;
+            }
+            25% {
+                transform: scale(1.1) rotate(90deg);
+                opacity: 0.6;
+            }
+            50% {
+                transform: scale(0.9) rotate(180deg);
+                opacity: 0.9;
+            }
+            75% {
+                transform: scale(1.1) rotate(270deg);
+                opacity: 0.6;
+            }
+            100% {
+                transform: scale(1) rotate(360deg);
+                opacity: 0.3;
+            }
+        }
+        
+        .betting-controls {
+            margin-bottom: 30px;
+        }
+        
+        .bet-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .bet-button {
+            padding: 12px 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .bet-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .bet-button.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .current-bet {
+            text-align: center;
+            font-size: 18px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        
+        .bet-amount {
+            font-weight: 700;
+            color: #4ade80;
+        }
+        
+        .spin-button {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            border: none;
+            border-radius: 15px;
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 24px rgba(74, 222, 128, 0.3);
+        }
+        
+        .spin-button:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(74, 222, 128, 0.4);
+        }
+        
+        .spin-button:disabled {
+            background: linear-gradient(135deg, #6b7280, #4b5563);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .spin-button.spinning {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            animation: pulse 1s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        
+        .game-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+        
+        .stat-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-bottom: 8px;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .stat-value.win {
+            color: #4ade80;
+            text-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
+        }
+        /* Mobile Responsive */
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .slot-game {
+                padding: 20px;
+            }
+            .game-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .balance-display {
+                text-align: center;
+            }
+            .reels-container {
+                gap: 8px;
+            }
+            .symbol {
+                font-size: 36px;
+            }
+            .bet-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .game-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            .balance-amount {
+                font-size: 28px;
+            }
+            .spin-button {
+                font-size: 18px;
+                padding: 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .auth-card {
+                padding: 30px 20px;
+            }
+            .slot-game {
+                padding: 15px;
+            }
+            .symbol {
+                font-size: 28px;
+            }
+            .reel {
+                min-height: 80px;
+            }
+            .game-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/three@0.159.0/build/three.min.js"></script>
+    <script src="app_final.js" type="text/babel"></script>
+</body>
+
+</html>
