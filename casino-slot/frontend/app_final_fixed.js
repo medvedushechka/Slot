@@ -3,6 +3,8 @@ const { useState, useEffect, useRef } = React;
 // Auth state
 const [isAuthenticated, setIsAuthenticated] = useState(false);
 const [isLoginMode, setIsLoginMode] = useState(true); // true = login, false = register
+const authFormRef = useRef(null);
+const loginBtnRef = useRef(null);
 
 // Auth functions
 const toggleAuthMode = () => {
@@ -11,24 +13,26 @@ const toggleAuthMode = () => {
 
 const handleAuth = (e) => {
     e.preventDefault();
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+    const username = authFormRef.current ? .querySelector('#username') ? .value;
+    const password = authFormRef.current ? .querySelector('#password') ? .value;
 
     if (!username || !password) {
         alert('Пожалуйста, заполните все поля');
         return;
     }
 
-    if (isLoginMode) {
-        // Login logic
-        console.log('Login:', { username, password });
-        // Simulate successful login
-        setIsAuthenticated(true);
-    } else {
-        // Register logic
-        console.log('Register:', { username, password });
-        // Simulate successful registration
-        setIsAuthenticated(true);
+    // Always login mode - no separate register button
+    console.log('Login:', { username, password });
+    // Simulate successful login
+    setIsAuthenticated(true);
+};
+
+const handleLoginClick = () => {
+    // Switch to login mode and submit form
+    setIsLoginMode(true);
+    const submitEvent = new Event('submit', { bubbles: true, cancelable: true });
+    if (authFormRef.current) {
+        authFormRef.current.dispatchEvent(submitEvent);
     }
 };
 
@@ -895,29 +899,25 @@ function App() {
     // Bind form handlers
     React.useEffect(() => {
         const authForm = document.getElementById('authForm');
-        const loginBtn = document.getElementById('loginBtn');
+        const toggleBtn = document.getElementById('toggleModeBtn');
 
         if (authForm) {
             authForm.addEventListener('submit', handleAuth);
         }
 
-        if (loginBtn) {
-            loginBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const submitEvent = new Event('submit', { bubbles: true, cancelable: true });
-                authForm.dispatchEvent(submitEvent);
-            });
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', toggleAuthMode);
         }
 
         return () => {
             if (authForm) {
                 authForm.removeEventListener('submit', handleAuth);
             }
-            if (loginBtn) {
-                loginBtn.removeEventListener('click', loginBtn.onclick);
+            if (toggleBtn) {
+                toggleBtn.removeEventListener('click', toggleAuthMode);
             }
         };
-    }, [isAuthenticated]);
+    }, [isAuthenticated, isLoginMode]);
 
     const handleLogout = () => {
         window.location.href = '/';
