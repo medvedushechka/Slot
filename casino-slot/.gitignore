@@ -1,0 +1,81 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+logs/
+*.log
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Docker
+.dockerignore
+
+# SSL сертификаты (не храним в Git)
+ssl/
+*.pem
+*.key
+*.crt
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Node modules (если есть)
+node_modules/
+
+# Build artifacts
+build/
+dist/
+
+# Temporary files
+tmp/
+temp/
+
+# Backup files
+*.backup
+*.bak
+
+# Music files (если большие)
+music/*.mp3
+music/*.wav
+music/*.ogg
