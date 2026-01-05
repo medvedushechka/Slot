@@ -734,6 +734,13 @@ function SlotGame({ username, balance, onLogout, onSpin, isSpinning, symbols, be
                 )
             ),
 
+            // Spin button
+            React.createElement("button", {
+                onClick: onSpin,
+                disabled: isSpinning || balance < bet,
+                className: `spin-button ${isSpinning ? 'spinning' : ''} ${balance < bet ? 'disabled' : ''}`
+            }, isSpinning ? "КРУТИТСЯ..." : "КРУТИТЬ"),
+
             // Bet button with modal dropdown
             React.createElement("div", { className: "bet-button-container" },
                 React.createElement("button", {
@@ -765,13 +772,6 @@ function SlotGame({ username, balance, onLogout, onSpin, isSpinning, symbols, be
                     )
                 )
             ),
-
-            // Spin button
-            React.createElement("button", {
-                onClick: onSpin,
-                disabled: isSpinning || balance < bet,
-                className: `spin-button ${isSpinning ? 'spinning' : ''} ${balance < bet ? 'disabled' : ''}`
-            }, isSpinning ? "КРУТИТСЯ..." : "КРУТИТЬ"),
 
             // Stats
             React.createElement("div", { className: "game-stats" },
