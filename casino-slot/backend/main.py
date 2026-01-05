@@ -64,348 +64,69 @@ async def root_page() -> HTMLResponse:
         <!DOCTYPE html>
         <html lang="ru">
         <head>
-          <meta charset="UTF-8" />
-          <title>Dazino Casino</title>
-          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <style>
-            * {
-              box-sizing: border-box;
-              margin: 0;
-              padding: 0;
-            }
-            
-            body {
-              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-              background: linear-gradient(135deg, #1e3a8a 0%, #312e81 50%, #1e1b4b 100%);
-              min-height: 100vh;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              padding: 20px;
-              color: white;
-            }
-            
-            .auth-container {
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              min-height: 100vh;
-              width: 100%;
-            }
-
-            .auth-card {
-              background: rgba(30, 41, 59, 0.95);
-              backdrop-filter: blur(20px);
-              border-radius: 24px;
-              padding: 48px;
-              box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-              border: 1px solid rgba(148, 163, 184, 0.2);
-              width: 100%;
-              max-width: 420px;
-            }
-            
-            .auth-card h2 {
-              text-align: center;
-              margin-bottom: 32px;
-              font-size: 36px;
-              font-weight: 700;
-              color: #f1f5f9;
-              text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            }
-            
-            .form-group {
-              margin-bottom: 24px;
-            }
-            
-            .form-group label {
-              display: block;
-              margin-bottom: 8px;
-              font-weight: 600;
-              font-size: 15px;
-              color: #e2e8f0;
-            }
-            
-            .auth-input {
-              width: 100%;
-              padding: 16px 20px;
-              border: 2px solid rgba(148, 163, 184, 0.3);
-              border-radius: 16px;
-              background: rgba(15, 23, 42, 0.8);
-              color: #f1f5f9;
-              font-size: 16px;
-              outline: none;
-              transition: all 0.3s ease;
-            }
-            
-            .auth-input:focus {
-              border-color: #3b82f6;
-              background: rgba(15, 23, 42, 0.9);
-              box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-            }
-            
-            .auth-input::placeholder {
-              color: #94a3b8;
-            }
-            
-            .auth-button {
-              width: 100%;
-              padding: 18px 24px;
-              background: linear-gradient(135deg, #3b82f6, #2563eb);
-              border: none;
-              border-radius: 16px;
-              color: white;
-              font-size: 18px;
-              font-weight: 700;
-              cursor: pointer;
-              transition: all 0.3s ease;
-              text-transform: uppercase;
-              letter-spacing: 1.5px;
-              margin-bottom: 20px;
-              box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
-            }
-            
-            .auth-button:hover:not(:disabled) {
-              transform: translateY(-2px);
-              box-shadow: 0 15px 40px rgba(59, 130, 246, 0.4);
-              background: linear-gradient(135deg, #2563eb, #1d4ed8);
-            }
-            
-            .auth-button:disabled {
-              opacity: 0.5;
-              cursor: not-allowed;
-              transform: none;
-            }
-            
-            .auth-switch {
-              width: 100%;
-              padding: 16px;
-              background: transparent;
-              border: 2px solid rgba(148, 163, 184, 0.3);
-              border-radius: 16px;
-              color: #e2e8f0;
-              font-size: 15px;
-              cursor: pointer;
-              transition: all 0.3s ease;
-              font-weight: 600;
-            }
-            
-            .auth-switch:hover {
-              background: rgba(59, 130, 246, 0.1);
-              border-color: rgba(59, 130, 246, 0.5);
-            }
-            
-            .error {
-              color: #ef4444;
-              font-size: 15px;
-              text-align: center;
-              margin-top: 12px;
-              padding: 12px 16px;
-              background: rgba(239, 68, 68, 0.15);
-              border-radius: 12px;
-              border: 1px solid rgba(239, 68, 68, 0.3);
-              display: none;
-              font-weight: 500;
-            }
-            
-            .success {
-              color: #10b981;
-              font-size: 15px;
-              text-align: center;
-              margin-top: 12px;
-              padding: 12px 16px;
-              background: rgba(16, 185, 129, 0.15);
-              border-radius: 12px;
-              border: 1px solid rgba(16, 185, 129, 0.3);
-              display: none;
-              font-weight: 500;
-            }
-            
-            .mode-toggle {
-              text-align: center;
-              margin-bottom: 24px;
-              font-size: 15px;
-              color: #cbd5e1;
-            }
-            
-            .mode-toggle button {
-              background: none;
-              border: none;
-              color: #3b82f6;
-              text-decoration: underline;
-              cursor: pointer;
-              font-size: 15px;
-              font-weight: 600;
-              transition: color 0.3s ease;
-            }
-            
-            .mode-toggle button:hover {
-              color: #2563eb;
-            }
-            
-            .password-input {
-              position: relative;
-            }
-            
-            .toggle-password {
-              position: absolute;
-              right: 16px;
-              top: 50%;
-              transform: translateY(-50%);
-              background: none;
-              border: none;
-              color: #94a3b8;
-              cursor: pointer;
-              font-size: 14px;
-              padding: 4px;
-            }
-            
-            .toggle-password:hover {
-              color: #e2e8f0;
-            }
-          </style>
+            <meta charset="UTF-8" />
+            <title>Dazino Casino</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <meta http-equiv="refresh" content="0; url=/app" />
+            <style>
+                * {
+                    box-sizing: border-box;
+                    margin: 0;
+                    padding: 0;
+                }
+                
+                body {
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+                    background: linear-gradient(135deg, #1e3a8a 0%, #312e81 50%, #1e1b4b 100%);
+                    min-height: 100vh;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 20px;
+                    color: white;
+                }
+                
+                .redirect-container {
+                    text-align: center;
+                    max-width: 400px;
+                }
+                
+                .redirect-message {
+                    font-size: 24px;
+                    font-weight: 600;
+                    margin-bottom: 20px;
+                    color: #f1f5f9;
+                    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+                }
+                
+                .redirect-subtitle {
+                    font-size: 16px;
+                    color: #e2e8f0;
+                    margin-bottom: 30px;
+                }
+                
+                .loader {
+                    width: 40px;
+                    height: 40px;
+                    border: 4px solid rgba(255, 255, 255, 0.1);
+                    border-top: 4px solid #3b82f6;
+                    border-radius: 50%;
+                    animation: spin 1s linear infinite;
+                    margin: 0 auto 20px;
+                }
+                
+                @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+            </style>
         </head>
         <body>
-          <div class="auth-container">
-            <div class="auth-card">
-              <div class="mode-toggle">
-                <span id="mode-text">Нет аккаунта? </span>
-                <button id="toggle-mode">Зарегистрироваться</button>
-              </div>
-              <h2 id="form-title" style="color: white;">Вход</h2>
-              <form id="auth-form">
-                <div class="form-group">
-                  <label for="username">Логин</label>
-                  <input id="username" class="auth-input" type="text" required placeholder="Введите логин" />
-                </div>
-                <div class="form-group">
-                  <label for="password">Пароль</label>
-                  <div class="password-input">
-                    <input id="password" class="auth-input" type="password" required placeholder="Введите пароль" />
-                    <button type="button" class="toggle-password" id="toggle-password">👁️</button>
-                  </div>
-                </div>
-                <div class="form-group" id="balance-group" style="display: none;">
-                  <label for="balance">Начальный баланс</label>
-                  <input id="balance" class="auth-input" type="number" min="1" step="1" value="100" placeholder="100" />
-                </div>
-                <button id="submit-btn" class="auth-button" type="submit">Войти</button>
-                <div id="error" class="error"></div>
-                <div id="success" class="success"></div>
-              </form>
+            <div class="redirect-container">
+                <div class="redirect-message">Добро пожаловать в Dazino Casino!</div>
+                <div class="redirect-subtitle">Перенаправляем на страницу входа...</div>
+                <div class="loader"></div>
             </div>
-          </div>
-          
-          <script>
-            const form = document.getElementById('auth-form');
-            const errorEl = document.getElementById('error');
-            const successEl = document.getElementById('success');
-            const submitBtn = document.getElementById('submit-btn');
-            const toggleBtn = document.getElementById('toggle-mode');
-            const modeText = document.getElementById('mode-text');
-            const formTitle = document.getElementById('form-title');
-            const balanceGroup = document.getElementById('balance-group');
-            const usernameInput = document.getElementById('username');
-            const passwordInput = document.getElementById('password');
-            const balanceInput = document.getElementById('balance');
-            const togglePasswordBtn = document.getElementById('toggle-password');
-            
-            let isLogin = true; // Start with login screen
-            
-            // Initialize login screen
-            function switchToLogin() {
-              isLogin = true;
-              formTitle.textContent = 'Вход';
-              submitBtn.textContent = 'Войти';
-              modeText.innerHTML = 'Нет аккаунта? <button id="toggle-mode">Зарегистрироваться</button>';
-              balanceGroup.style.display = 'none';
-              passwordInput.placeholder = 'Введите пароль';
-              usernameInput.placeholder = 'Введите логин';
-              errorEl.style.display = 'none';
-            }
-            
-            function switchToRegister() {
-              isLogin = false;
-              formTitle.textContent = 'Регистрация';
-              submitBtn.textContent = 'Зарегистрироваться';
-              modeText.innerHTML = 'Уже есть аккаунт? <button id="toggle-mode">Войти</button>';
-              balanceGroup.style.display = 'block';
-              passwordInput.placeholder = 'Введите пароль (минимум 4 символа)';
-              usernameInput.placeholder = 'Введите логин';
-              errorEl.style.display = 'none';
-            }
-            
-            // Initialize with login screen
-            switchToLogin();
-            
-            // Toggle password visibility
-            togglePasswordBtn.addEventListener('click', () => {
-              const type = passwordInput.type === 'password' ? 'text' : 'password';
-              passwordInput.type = type;
-              togglePasswordBtn.textContent = type === 'password' ? '👁️' : '👁️‍🗨️';
-            });
-            
-            // Toggle between login and register
-            toggleBtn.addEventListener('click', () => {
-              if (isLogin) {
-                switchToRegister();
-              } else {
-                switchToLogin();
-              }
-            });
-            
-            form.addEventListener('submit', async (e) => {
-              e.preventDefault();
-              errorEl.style.display = 'none';
-              successEl.style.display = 'none';
-              
-              const username = usernameInput.value.trim();
-              const password = passwordInput.value.trim();
-              const balanceRaw = balanceInput.value;
-              const initial_balance = parseFloat(balanceRaw || '100') || 100;
-              
-              if (!username) {
-                errorEl.textContent = 'Имя пользователя обязательно';
-                errorEl.style.display = 'block';
-                return;
-              }
-              
-              if (!password) {
-                errorEl.textContent = 'Пароль обязателен';
-                errorEl.style.display = 'block';
-                return;
-              }
-              
-              if (!isLogin && password.length < 4) {
-                errorEl.textContent = 'Пароль должен содержать минимум 4 символа';
-                errorEl.style.display = 'block';
-                return;
-              }
-              
-              if (isLogin && password.length < 4) {
-                errorEl.textContent = 'Пароль должен содержать минимум 4 символа';
-                errorEl.style.display = 'block';
-                return;
-              }
-              
-              if (!isLogin && initial_balance < 1) {
-                errorEl.textContent = 'Начальный баланс должен быть не менее 1';
-                errorEl.style.display = 'block';
-                return;
-              }
-              
-              submitBtn.disabled = true;
-              submitBtn.textContent = isLogin ? 'ВХОД...' : 'РЕГИСТРАЦИЯ...';
-              
-              try {
-                const endpoint = isLogin ? '/login' : '/register';
-                const body = isLogin ? 
-                  JSON.stringify({ username, password }) : 
-                  JSON.stringify({ username, password, initial_balance });
-                
-                console.log('=== DEBUG INFO ===');
-                console.log('Endpoint:', endpoint);
-                console.log('Is login:', isLogin);
-                console.log('Username:', username);
                 console.log('Password length:', password.length);
                 console.log('Initial balance:', initial_balance);
                 console.log('Request body:', body);
