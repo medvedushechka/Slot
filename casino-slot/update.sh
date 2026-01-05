@@ -15,7 +15,7 @@ BACKUP_DIR="/opt/casino/backups/$(date +%Y%m%d_%H%M%S)"
 sudo mkdir -p $BACKUP_DIR
 
 echo "📦 Создаем бэкап..."
-sudo docker-compose exec db pg_dump -U casino_user casino_db > $BACKUP_DIR/database_backup.sql 2>/dev/null || echo "Бэкап БД не удался"
+sudo docker-compose -f docker-compose.yml exec db pg_dump -U casino_user casino_db > $BACKUP_DIR/database_backup.sql 2>/dev/null || echo "Бэкап БД не удался"
 
 # Обновляем код из Git
 echo "📥 Обновляем код из репозитория..."
@@ -24,11 +24,11 @@ git pull origin master
 
 # Пересобираем и перезапускаем контейнеры
 echo "🔨 Пересобираем контейнеры..."
-sudo docker-compose down
-sudo docker-compose build --no-cache
+sudo docker-compose -f docker-compose.yml down
+sudo docker-compose -f docker-compose.yml build --no-cache
 
 echo "🚀 Запускаем обновленные контейнеры..."
-sudo docker-compose up -d
+sudo docker-compose -f docker-compose.yml up -d
 
 # Ожидаем запуска
 echo "⏳ Ожидаем запуска сервисов..."
@@ -51,7 +51,7 @@ sudo docker image prune -f
 echo "✅ Обновление завершено!"
 echo ""
 echo "📊 Статус:"
-sudo docker-compose ps
+sudo docker-compose -f docker-compose.yml ps
 echo ""
 echo "🌐 Сайт доступен по адресу: https://your-domain.com"
 echo "📝 Последние изменения:"

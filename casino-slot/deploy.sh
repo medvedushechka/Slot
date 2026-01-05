@@ -48,14 +48,14 @@ fi
 
 # Останавливаем старые контейнеры
 echo "🛑 Останавливаем старые контейнеры..."
-sudo docker-compose down
+sudo docker-compose -f docker-compose.yml down
 
 # Собираем и запускаем новые контейнеры
 echo "🔨 Собираем образы..."
-sudo docker-compose build
+sudo docker-compose -f docker-compose.yml build
 
 echo "🚀 Запускаем контейнеры..."
-sudo docker-compose up -d
+sudo docker-compose -f docker-compose.yml up -d
 
 # Ожидаем запуска базы данных
 echo "⏳ Ожидаем запуска базы данных..."
@@ -71,7 +71,7 @@ print('База данных инициализирована')
 
 # Проверяем статус
 echo "🔍 Проверяем статус..."
-sudo docker-compose ps
+sudo docker-compose -f docker-compose.yml ps
 
 echo "✅ Развертывание завершено!"
 echo ""
@@ -79,7 +79,7 @@ echo "🌐 Сайт доступен по адресу: https://your-domain.com"
 echo "📊 Мониторинг: http://your-domain.com/health"
 echo ""
 echo "📝 Полезные команды:"
-echo "  Просмотр логов: sudo docker-compose logs -f app"
-echo "  Перезапуск: sudo docker-compose restart app"
-echo "  Остановка: sudo docker-compose down"
-echo "  Обновление: cd $PROJECT_DIR/casino-slot && git pull && sudo docker-compose up -d --build"
+echo "  Просмотр логов: sudo docker-compose -f docker-compose.yml logs -f app"
+echo "  Перезапуск: sudo docker-compose -f docker-compose.yml restart app"
+echo "  Остановка: sudo docker-compose -f docker-compose.yml down"
+echo "  Обновление: cd $PROJECT_DIR/casino-slot && git pull && sudo docker-compose -f docker-compose.yml up -d --build"
