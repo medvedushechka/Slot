@@ -821,8 +821,10 @@ function App() {
 
     const handleAuth = (e) => {
         e.preventDefault();
-        const username = authFormRef.current ? .querySelector('#username') ? .value;
-        const password = authFormRef.current ? .querySelector('#password') ? .value;
+        const usernameInput = authFormRef.current ? authFormRef.current.querySelector('#username') : null;
+        const passwordInput = authFormRef.current ? authFormRef.current.querySelector('#password') : null;
+        const username = usernameInput ? usernameInput.value : '';
+        const password = passwordInput ? passwordInput.value : '';
 
         if (!username || !password) {
             alert('Пожалуйста, заполните все поля');
