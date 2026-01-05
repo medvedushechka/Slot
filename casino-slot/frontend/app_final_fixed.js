@@ -809,57 +809,6 @@ function App() {
     const userId = urlParams.get('user_id');
     const username = urlParams.get('username');
 
-    // Auth state
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [isLoginMode, setIsLoginMode] = useState(true); // true = login, false = register
-    const authFormRef = useRef(null);
-
-    // Auth functions
-    const toggleAuthMode = () => {
-        setIsLoginMode(!isLoginMode);
-    };
-
-    const handleAuth = (e) => {
-        e.preventDefault();
-        const usernameInput = document.getElementById('username');
-        const passwordInput = document.getElementById('password');
-        const username = usernameInput ? usernameInput.value : '';
-        const password = passwordInput ? passwordInput.value : '';
-
-        console.log('Auth attempt:', { username, password, usernameInput, passwordInput });
-
-        if (!username || !password) {
-            alert('Пожалуйста, заполните все поля');
-            return;
-        }
-
-        // Always login mode - no separate register button
-        console.log('Login:', { username, password });
-        // Simulate successful login
-        setIsAuthenticated(true);
-    };
-
-    // Show auth form if not authenticated
-    if (!isAuthenticated) {
-        return React.createElement("div", { className: "auth-container" },
-            React.createElement("div", { className: "auth-card" },
-                React.createElement("h2", null, isLoginMode ? "Вход в аккаунт" : "Регистрация"),
-                React.createElement("form", { id: "authForm", onSubmit: handleAuth },
-                    React.createElement("div", { className: "form-group" },
-                        React.createElement("label", { htmlFor: "username" }, "Имя пользователя"),
-                        React.createElement("input", { type: "text", id: "username", className: "auth-input", placeholder: "Введите имя", required: true })
-                    ),
-                    React.createElement("div", { className: "form-group" },
-                        React.createElement("label", { htmlFor: "password" }, "Пароль"),
-                        React.createElement("input", { type: "password", id: "password", className: "auth-input", placeholder: "Введите пароль", required: true })
-                    ),
-                    React.createElement("button", { type: "submit", className: "auth-button" }, isLoginMode ? "Войти" : "Зарегистрироваться"),
-                    React.createElement("button", { type: "button", onClick: toggleAuthMode, className: "auth-button auth-switch" }, isLoginMode ? "Зарегистрироваться" : "Войти")
-                )
-            )
-        );
-    }
-
     // Game states
     const [balance, setBalance] = useState(100.00);
     const [bet, setBet] = useState(0.20);
@@ -889,21 +838,6 @@ function App() {
     React.useEffect(() => {
         SoundManager.init();
     }, []);
-
-    // Bind form handlers
-    React.useEffect(() => {
-        const authForm = document.getElementById('authForm');
-
-        if (authForm) {
-            authForm.addEventListener('submit', handleAuth);
-        }
-
-        return () => {
-            if (authForm) {
-                authForm.removeEventListener('submit', handleAuth);
-            }
-        };
-    }, [handleAuth]);
 
     const handleLogout = () => {
         window.location.href = '/';
