@@ -821,10 +821,12 @@ function App() {
 
     const handleAuth = (e) => {
         e.preventDefault();
-        const usernameInput = authFormRef.current ? authFormRef.current.querySelector('#username') : null;
-        const passwordInput = authFormRef.current ? authFormRef.current.querySelector('#password') : null;
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
         const username = usernameInput ? usernameInput.value : '';
         const password = passwordInput ? passwordInput.value : '';
+
+        console.log('Auth attempt:', { username, password, usernameInput, passwordInput });
 
         if (!username || !password) {
             alert('Пожалуйста, заполните все поля');
@@ -891,25 +893,17 @@ function App() {
     // Bind form handlers
     React.useEffect(() => {
         const authForm = document.getElementById('authForm');
-        const toggleBtn = document.getElementById('toggleModeBtn');
 
         if (authForm) {
             authForm.addEventListener('submit', handleAuth);
-        }
-
-        if (toggleBtn) {
-            toggleBtn.addEventListener('click', toggleAuthMode);
         }
 
         return () => {
             if (authForm) {
                 authForm.removeEventListener('submit', handleAuth);
             }
-            if (toggleBtn) {
-                toggleBtn.removeEventListener('click', toggleAuthMode);
-            }
         };
-    }, [isAuthenticated, isLoginMode, handleAuth, toggleAuthMode]);
+    }, [handleAuth]);
 
     const handleLogout = () => {
         window.location.href = '/';
