@@ -1,41 +1,5 @@
 const { useState, useEffect, useRef } = React;
 
-// Auth state
-const [isAuthenticated, setIsAuthenticated] = useState(false);
-const [isLoginMode, setIsLoginMode] = useState(true); // true = login, false = register
-const authFormRef = useRef(null);
-const loginBtnRef = useRef(null);
-
-// Auth functions
-const toggleAuthMode = () => {
-    setIsLoginMode(!isLoginMode);
-};
-
-const handleAuth = (e) => {
-    e.preventDefault();
-    const username = authFormRef.current ? .querySelector('#username') ? .value;
-    const password = authFormRef.current ? .querySelector('#password') ? .value;
-
-    if (!username || !password) {
-        alert('Пожалуйста, заполните все поля');
-        return;
-    }
-
-    // Always login mode - no separate register button
-    console.log('Login:', { username, password });
-    // Simulate successful login
-    setIsAuthenticated(true);
-};
-
-const handleLoginClick = () => {
-    // Switch to login mode and submit form
-    setIsLoginMode(true);
-    const submitEvent = new Event('submit', { bubbles: true, cancelable: true });
-    if (authFormRef.current) {
-        authFormRef.current.dispatchEvent(submitEvent);
-    }
-};
-
 // Animation utilities
 const SYMBOLS = [
     { name: "cherry", image: "icons/cherry.png", weight: 30, payout: 2 },
@@ -845,6 +809,32 @@ function App() {
     const userId = urlParams.get('user_id');
     const username = urlParams.get('username');
 
+    // Auth state
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isLoginMode, setIsLoginMode] = useState(true); // true = login, false = register
+    const authFormRef = useRef(null);
+
+    // Auth functions
+    const toggleAuthMode = () => {
+        setIsLoginMode(!isLoginMode);
+    };
+
+    const handleAuth = (e) => {
+        e.preventDefault();
+        const username = authFormRef.current ? .querySelector('#username') ? .value;
+        const password = authFormRef.current ? .querySelector('#password') ? .value;
+
+        if (!username || !password) {
+            alert('Пожалуйста, заполните все поля');
+            return;
+        }
+
+        // Always login mode - no separate register button
+        console.log('Login:', { username, password });
+        // Simulate successful login
+        setIsAuthenticated(true);
+    };
+
     // Show auth form if not authenticated
     if (!isAuthenticated) {
         return React.createElement("div", { className: "auth-container" },
@@ -917,7 +907,7 @@ function App() {
                 toggleBtn.removeEventListener('click', toggleAuthMode);
             }
         };
-    }, [isAuthenticated, isLoginMode]);
+    }, [isAuthenticated, isLoginMode, handleAuth, toggleAuthMode]);
 
     const handleLogout = () => {
         window.location.href = '/';
