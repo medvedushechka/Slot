@@ -734,39 +734,42 @@ function SlotGame({ username, balance, onLogout, onSpin, isSpinning, symbols, be
                 )
             ),
 
-            // Spin button
-            React.createElement("button", {
-                onClick: onSpin,
-                disabled: isSpinning || balance < bet,
-                className: `spin-button ${isSpinning ? 'spinning' : ''} ${balance < bet ? 'disabled' : ''}`
-            }, isSpinning ? "КРУТИТСЯ..." : "КРУТИТЬ"),
-
-            // Bet button with modal dropdown
-            React.createElement("div", { className: "bet-button-container" },
+            // Controls container with explicit order
+            React.createElement("div", { className: "controls-container" },
+                // Spin button
                 React.createElement("button", {
-                    onClick: () => setShowBetDropdown(!showBetDropdown),
-                    className: "bet-dropdown-button"
-                }, `Ставка: ${bet.toFixed(2)} ₽`),
+                    onClick: onSpin,
+                    disabled: isSpinning || balance < bet,
+                    className: `spin-button ${isSpinning ? 'spinning' : ''} ${balance < bet ? 'disabled' : ''}`
+                }, isSpinning ? "КРУТИТСЯ..." : "КРУТИТЬ"),
 
-                // Modal overlay
-                showBetDropdown && React.createElement("div", {
-                        className: "bet-dropdown-overlay",
-                        onClick: () => setShowBetDropdown(false)
-                    },
-                    React.createElement("div", {
-                            className: "bet-dropdown-modal",
-                            onClick: (e) => e.stopPropagation() // Prevent closing when clicking modal
+                // Bet button with modal dropdown
+                React.createElement("div", { className: "bet-button-container" },
+                    React.createElement("button", {
+                        onClick: () => setShowBetDropdown(!showBetDropdown),
+                        className: "bet-dropdown-button"
+                    }, `Ставка: ${bet.toFixed(2)} ₽`),
+
+                    // Modal overlay
+                    showBetDropdown && React.createElement("div", {
+                            className: "bet-dropdown-overlay",
+                            onClick: () => setShowBetDropdown(false)
                         },
-                        React.createElement("div", { className: "bet-dropdown-header" },
-                            React.createElement("h3", { className: "bet-dropdown-title" }, "Выберите ставку")
-                        ),
-                        React.createElement("div", { className: "bet-dropdown-content" },
-                            ...FIXED_BETS.map(betAmount =>
-                                React.createElement("button", {
-                                    key: betAmount,
-                                    onClick: () => handleBetSelect(betAmount),
-                                    className: `bet-dropdown-item ${bet === betAmount ? 'active' : ''}`
-                                }, `${betAmount.toFixed(2)} ₽`)
+                        React.createElement("div", {
+                                className: "bet-dropdown-modal",
+                                onClick: (e) => e.stopPropagation() // Prevent closing when clicking modal
+                            },
+                            React.createElement("div", { className: "bet-dropdown-header" },
+                                React.createElement("h3", { className: "bet-dropdown-title" }, "Выберите ставку")
+                            ),
+                            React.createElement("div", { className: "bet-dropdown-content" },
+                                ...FIXED_BETS.map(betAmount =>
+                                    React.createElement("button", {
+                                        key: betAmount,
+                                        onClick: () => handleBetSelect(betAmount),
+                                        className: `bet-dropdown-item ${bet === betAmount ? 'active' : ''}`
+                                    }, `${betAmount.toFixed(2)} ₽`)
+                                )
                             )
                         )
                     )
