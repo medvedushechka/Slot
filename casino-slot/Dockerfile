@@ -20,8 +20,8 @@ COPY backend/ .
 # Копируем фронтенд
 COPY frontend/ ./frontend/
 
-# Копируем музыку в корень контейнера
-COPY music/ ./music/
+# Копируем музыку с абсолютным путем
+COPY music/ /app/music/
 
 # Создаем директории для статических файлов
 RUN mkdir -p /app/static
@@ -30,7 +30,10 @@ RUN mkdir -p /app/static
 RUN cp -r /app/frontend/* /app/static/
 
 # Проверяем, что музыка скопировалась правильно
-RUN ls -la /app/music/ && echo "Music files found in /app/music/"
+RUN ls -la /app/music/ && echo "Music files found in /app/music/" || (echo "Music files NOT found!" && ls -la /app/)
+
+# Дополнительная проверка - копируем музыку еще раз если нужно
+RUN test -f /app/music/background.mp3 || (echo "Copying music files..." && cp -r music/* /app/music/ 2>/dev/null || true)
 
 # Открываем порт
 EXPOSE 8000

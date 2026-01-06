@@ -57,6 +57,34 @@ app.mount(
 )
 
 
+@app.get("/debug/music")
+async def debug_music():
+    """Debug endpoint to check music files"""
+    import os
+    music_dir = "/app/music"
+    files = []
+    if os.path.exists(music_dir):
+        for file in os.listdir(music_dir):
+            if file.endswith('.mp3'):
+                file_path = os.path.join(music_dir, file)
+                file_size = os.path.getsize(file_path)
+                files.append({
+                    "name": file,
+                    "path": file_path,
+                    "size": file_size,
+                    "exists": True
+                })
+    else:
+        files.append({"error": f"Directory {music_dir} does not exist"})
+    
+    return {
+        "music_directory": music_dir,
+        "directory_exists": os.path.exists(music_dir),
+        "files": files,
+        "current_working_dir": os.getcwd()
+    }
+
+
 @app.get("/", response_class=HTMLResponse)
 async def root_page() -> HTMLResponse:
     return HTMLResponse(
