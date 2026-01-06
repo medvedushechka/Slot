@@ -29,8 +29,9 @@ RUN mkdir -p /app/static
 # Копируем статические файлы фронтенда
 RUN cp -r /app/frontend/* /app/static/
 
-# Убедимся, что иконки скопированы правильно
+# Убедимся, что иконки и музыка скопированы правильно
 RUN ls -la /app/static/icons/ || echo "Icons directory not found"
+RUN ls -la /app/music/ || echo "Music directory not found"
 
 # Открываем порт
 EXPOSE 8000
