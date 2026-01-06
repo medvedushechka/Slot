@@ -231,6 +231,75 @@ const SoundManager = {
     }
 };
 
+// Music Control Button Manager
+const MusicControlManager = {
+    isPlaying: false,
+    button: null,
+    icon: null,
+    text: null,
+
+    init() {
+        this.button = document.getElementById('musicToggle');
+        this.icon = document.getElementById('musicIcon');
+        this.text = document.getElementById('musicText');
+
+        if (!this.button) {
+            console.log('Music control button not found');
+            return;
+        }
+
+        // Add click listener
+        this.button.addEventListener('click', () => this.toggleMusic());
+
+        // Initialize button state
+        this.updateButtonState();
+
+        console.log('Music control initialized');
+    },
+
+    toggleMusic() {
+        if (!SoundManager.isInitialized) {
+            SoundManager.init();
+        }
+
+        if (this.isPlaying) {
+            this.stopMusic();
+        } else {
+            this.startMusic();
+        }
+    },
+
+    startMusic() {
+        SoundManager.startBackgroundMusic();
+        this.isPlaying = true;
+        this.updateButtonState();
+        console.log('Music started');
+    },
+
+    stopMusic() {
+        if (SoundManager.backgroundMusic) {
+            SoundManager.backgroundMusic.pause();
+        }
+        this.isPlaying = false;
+        this.updateButtonState();
+        console.log('Music stopped');
+    },
+
+    updateButtonState() {
+        if (!this.button) return;
+
+        if (this.isPlaying) {
+            this.button.classList.add('playing');
+            this.icon.textContent = '🔇';
+            this.text.textContent = 'Выкл';
+        } else {
+            this.button.classList.remove('playing');
+            this.icon.textContent = '🎵';
+            this.text.textContent = 'Музыка';
+        }
+    }
+};
+
 // Active lines (all lines including diagonals)
 const ACTIVE_LINES = STANDARD_LINES;
 
@@ -837,6 +906,7 @@ function App() {
     // Initialize sound manager
     React.useEffect(() => {
         SoundManager.init();
+        MusicControlManager.init();
     }, []);
 
     const handleLogout = () => {

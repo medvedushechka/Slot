@@ -1067,6 +1067,85 @@
                     display: block !important;
                 }
             }
+            /* Music Control Button Styles */
+            .music-control {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 1000;
+            }
+            .music-toggle-btn {
+                background: linear-gradient(135deg, rgba(99, 102, 241, 0.9), rgba(79, 70, 229, 0.9));
+                border: 2px solid rgba(255, 255, 255, 0.2);
+                border-radius: 50px;
+                padding: 12px 20px;
+                color: white;
+                font-size: 14px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                backdrop-filter: blur(10px);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+            .music-toggle-btn:hover {
+                background: linear-gradient(135deg, rgba(79, 70, 229, 0.9), rgba(67, 56, 202, 0.9));
+                transform: translateY(-2px);
+                box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+                border-color: rgba(255, 255, 255, 0.3);
+            }
+            .music-toggle-btn:active {
+                transform: translateY(0);
+            }
+            .music-toggle-btn.playing {
+                background: linear-gradient(135deg, rgba(34, 197, 94, 0.9), rgba(22, 163, 74, 0.9));
+                animation: pulse 2s infinite;
+            }
+            @keyframes pulse {
+                0%,
+                100% {
+                    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(34, 197, 94, 0.4);
+                }
+                50% {
+                    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 10px rgba(34, 197, 94, 0);
+                }
+            }
+            #musicIcon {
+                font-size: 18px;
+                transition: transform 0.3s ease;
+            }
+            .music-toggle-btn.playing #musicIcon {
+                animation: bounce 1s infinite;
+            }
+            @keyframes bounce {
+                0%,
+                100% {
+                    transform: translateY(0);
+                }
+                50% {
+                    transform: translateY(-3px);
+                }
+            }
+            @media (max-width: 768px) {
+                .music-control {
+                    top: 15px;
+                    right: 15px;
+                }
+                .music-toggle-btn {
+                    padding: 10px 16px;
+                    font-size: 12px;
+                }
+                #musicIcon {
+                    font-size: 16px;
+                }
+                #musicText {
+                    display: none;
+                }
+            }
     </style>
 </head>
 
@@ -1101,6 +1180,14 @@
     <audio id="loseSound">
         <source src="/music/lose.mp3" type="audio/mpeg">
     </audio>
+
+    <!-- Music Control Button -->
+    <div id="musicControl" class="music-control">
+        <button id="musicToggle" class="music-toggle-btn" title="Включить/выключить музыку">
+            <span id="musicIcon">🎵</span>
+            <span id="musicText">Музыка</span>
+        </button>
+    </div>
 
     <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
