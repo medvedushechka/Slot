@@ -75,8 +75,9 @@ sudo docker-compose ps
 
 echo "✅ Развертывание завершено!"
 echo ""
-echo "🌐 Сайт доступен по адресу: https://your-domain.com"
-echo "📊 Мониторинг: http://your-domain.com/health"
+echo "🌐 Сайт доступен по адресу: http://your-domain.com:8080"
+echo "🔒 HTTPS доступ: https://your-domain.com:8443"
+echo "📊 Мониторинг: http://your-domain.com:8080/health"
 echo "🔧 Прямой доступ к API: http://your-domain.com:8181"
 echo ""
 echo "📝 Полезные команды:"
