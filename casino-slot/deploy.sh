@@ -77,6 +77,7 @@ echo "✅ Развертывание завершено!"
 echo ""
 echo "🌐 Сайт доступен по адресу: https://your-domain.com"
 echo "📊 Мониторинг: http://your-domain.com/health"
+echo "🔧 Прямой доступ к API: http://your-domain.com:8181"
 echo ""
 echo "📝 Полезные команды:"
 echo "  Просмотр логов: sudo docker-compose logs -f app"
