@@ -120,19 +120,27 @@ const SoundManager = {
 
         if (!this.backgroundMusic || !this.rollingSound || !this.winSound || !this.loseSound) {
             console.log('Audio elements not found');
+            console.log('backgroundMusic:', !!this.backgroundMusic);
+            console.log('rollingSound:', !!this.rollingSound);
+            console.log('winSound:', !!this.winSound);
+            console.log('loseSound:', !!this.loseSound);
             return;
         }
 
         // Set initial volumes
-        this.backgroundMusic.volume = 0;
+        this.backgroundMusic.volume = 0.3; // Set audible volume instead of 0
         this.rollingSound.volume = 0.5;
         this.winSound.volume = 0.7;
         this.loseSound.volume = 0.7;
 
-        this.isInitialized = true;
+        // Store original background volume
+        this.originalBackgroundVolume = 0.3;
 
-        // Try to start background music on first user interaction
-        this.setupUserInteractionListener();
+        this.isInitialized = true;
+        console.log('SoundManager initialized successfully');
+
+        // Don't auto-start, let user control via button
+        // this.setupUserInteractionListener();
     },
 
     setupUserInteractionListener() {
@@ -175,15 +183,39 @@ const SoundManager = {
     },
 
     startBackgroundMusic() {
-        if (!this.isInitialized) return;
-
-        if (this.backgroundMusic) {
-            this.backgroundMusic.play().catch(e => {
-                console.log('Background music play failed:', e);
-                // Try again on user interaction
-                this.setupUserInteractionListener();
-            });
+        if (!this.isInitialized) {
+            console.log('SoundManager not initialized');
+            return;
         }
+
+        if (!this.backgroundMusic) {
+            console.log('Background music element not found');
+            return;
+        }
+
+        console.log('Attempting to play background music...');
+
+        // Reset to beginning if needed
+        this.backgroundMusic.currentTime = 0;
+
+        this.backgroundMusic.play().then(() => {
+            console.log('Background music started successfully');
+            this.fadeInBackgroundMusic();
+        }).catch(e => {
+            console.error('Background music play failed:', e);
+            console.log('Error details:', e.name, e.message);
+
+            // Try to load and play again
+            this.backgroundMusic.load();
+            setTimeout(() => {
+                this.backgroundMusic.play().then(() => {
+                    console.log('Background music started on retry');
+                    this.fadeInBackgroundMusic();
+                }).catch(retryError => {
+                    console.error('Retry also failed:', retryError);
+                });
+            }, 100);
+        });
     },
 
     startRolling() {
@@ -258,7 +290,11 @@ const MusicControlManager = {
     },
 
     toggleMusic() {
+        console.log('Music toggle clicked, current state:', this.isPlaying);
+
+        // Ensure SoundManager is initialized
         if (!SoundManager.isInitialized) {
+            console.log('Initializing SoundManager...');
             SoundManager.init();
         }
 
@@ -270,15 +306,36 @@ const MusicControlManager = {
     },
 
     startMusic() {
-        SoundManager.startBackgroundMusic();
-        this.isPlaying = true;
-        this.updateButtonState();
-        console.log('Music started');
+        console.log('Starting music...');
+
+        // Try to start background music
+        try {
+            SoundManager.startBackgroundMusic();
+            this.isPlaying = true;
+            this.updateButtonState();
+            console.log('Music started successfully');
+        } catch (error) {
+            console.error('Failed to start music:', error);
+
+            // Fallback: try direct play
+            if (SoundManager.backgroundMusic) {
+                SoundManager.backgroundMusic.play().then(() => {
+                    console.log('Music started with direct play');
+                    this.isPlaying = true;
+                    this.updateButtonState();
+                }).catch(err => {
+                    console.error('Direct play also failed:', err);
+                });
+            }
+        }
     },
 
     stopMusic() {
+        console.log('Stopping music...');
+
         if (SoundManager.backgroundMusic) {
             SoundManager.backgroundMusic.pause();
+            console.log('Music paused');
         }
         this.isPlaying = false;
         this.updateButtonState();
