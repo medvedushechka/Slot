@@ -52,7 +52,7 @@ app.mount(
 
 app.mount(
     "/music",
-    StaticFiles(directory="music"),
+    StaticFiles(directory="/app/music"),
     name="music",
 )
 
