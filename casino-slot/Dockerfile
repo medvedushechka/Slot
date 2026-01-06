@@ -20,8 +20,11 @@ COPY backend/ .
 # Копируем фронтенд
 COPY frontend/ ./frontend/
 
-# Создаем директории для статических файлов и музыки
-RUN mkdir -p /app/static /app/music
+# Копируем музыку из правильной директории
+COPY music/ ./music/
+
+# Создаем директории для статических файлов
+RUN mkdir -p /app/static
 
 # Копируем статические файлы фронтенда
 RUN cp -r /app/frontend/* /app/static/
