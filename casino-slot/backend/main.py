@@ -46,13 +46,13 @@ app.add_middleware(
 
 app.mount(
     "/app",
-    StaticFiles(directory="../frontend", html=True),
+    StaticFiles(directory="static", html=True),
     name="frontend",
 )
 
 app.mount(
     "/music",
-    StaticFiles(directory="../../music"),
+    StaticFiles(directory="music"),
     name="music",
 )
 
